@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class DepartmentController {
     private final DepartmentService departmentService;
 
-    @PostMapping("/saveDepartment")
+    @PostMapping("/newDepartment")
     public Department saveDepartment(@RequestBody DepartmentCreateDto departmentDto)
     {
         Department department = new Department();
@@ -21,7 +21,7 @@ public class DepartmentController {
         return departmentService.saveDepartment(department);
     }
 
-    @PostMapping("/{depId}/saveDepartment")
+    @PostMapping("/{depId}/newDepartment")
     public Department saveDepartmentWithParent(@PathVariable Integer depId, @RequestBody DepartmentCreateDto departmentDto)
     {
         Department department = new Department();
@@ -29,7 +29,7 @@ public class DepartmentController {
         return departmentService.saveDepartment(department, depId);
     }
 
-    @PutMapping("/{depId}/setEmployee/{empId}")
+    @PutMapping("/{depId}/newEmployee/{empId}")
     public DepartmentEmployee setEmployee(@PathVariable Integer depId, @PathVariable Integer empId,
                                           @RequestBody String position)
     {

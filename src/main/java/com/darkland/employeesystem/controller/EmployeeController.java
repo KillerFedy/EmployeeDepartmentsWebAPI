@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    @PostMapping("/saveEmployee")
+    @PostMapping("/newEmployee")
     public Employee saveEmployee(@RequestBody EmployeeCreateDto employeeCreateDto)
     {
         Employee employee = new Employee();
