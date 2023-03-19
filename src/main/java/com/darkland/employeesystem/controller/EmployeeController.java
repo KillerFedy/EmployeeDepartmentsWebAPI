@@ -1,5 +1,6 @@
 package com.darkland.employeesystem.controller;
 
+import com.darkland.employeesystem.dto.EmployeeCreateDto;
 import com.darkland.employeesystem.model.Employee;
 import com.darkland.employeesystem.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,10 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping("/saveEmployee")
-    public Employee saveEmployee(@RequestBody Employee employee)
+    public Employee saveEmployee(@RequestBody EmployeeCreateDto employeeCreateDto)
     {
+        Employee employee = new Employee();
+        employee.setName(employeeCreateDto.getEmployeeName());
         return employeeService.saveEmployee(employee);
     }
 }

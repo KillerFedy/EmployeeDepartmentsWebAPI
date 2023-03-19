@@ -1,5 +1,6 @@
 package com.darkland.employeesystem.controller;
 
+import com.darkland.employeesystem.dto.DepartmentCreateDto;
 import com.darkland.employeesystem.model.Department;
 import com.darkland.employeesystem.model.DepartmentEmployee;
 import com.darkland.employeesystem.service.DepartmentService;
@@ -13,14 +14,18 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @PostMapping("/saveDepartment")
-    public Department saveDepartment(@RequestBody Department department)
+    public Department saveDepartment(@RequestBody DepartmentCreateDto departmentDto)
     {
+        Department department = new Department();
+        department.setDepartmentName(departmentDto.getDepartmentName());
         return departmentService.saveDepartment(department);
     }
 
     @PostMapping("/{depId}/saveDepartment")
-    public Department saveDepartmentWithParent(@PathVariable Integer depId, @RequestBody Department department)
+    public Department saveDepartmentWithParent(@PathVariable Integer depId, @RequestBody DepartmentCreateDto departmentDto)
     {
+        Department department = new Department();
+        department.setDepartmentName(departmentDto.getDepartmentName());
         return departmentService.saveDepartment(department, depId);
     }
 
