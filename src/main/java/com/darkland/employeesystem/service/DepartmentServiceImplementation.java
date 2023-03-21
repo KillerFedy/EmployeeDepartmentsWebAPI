@@ -23,15 +23,15 @@ public class DepartmentServiceImplementation implements DepartmentService {
 
     @Override
     public Department saveDepartment(Department department, Integer parentId) {
-        Department parentDepartment = departmentRepository.getReferenceById(parentId);
+        Department parentDepartment = departmentRepository.findById(parentId).orElseThrow();
         parentDepartment.addChildDepartment(department);
         return departmentRepository.save(department);
     }
 
     @Override
     public DepartmentEmployee setEmployee(Integer depId, Integer empId, String empPosition) {
-        Employee employee = employeeRepository.getReferenceById(empId);
-        Department department = departmentRepository.getReferenceById(depId);
+        Employee employee = employeeRepository.findById(empId).orElseThrow();
+        Department department = departmentRepository.findById(depId).orElseThrow();
         DepartmentEmployee departmentEmployee = new DepartmentEmployee(employee, department, empPosition);
         departmentRepository.save(department);
         employeeRepository.save(employee);
