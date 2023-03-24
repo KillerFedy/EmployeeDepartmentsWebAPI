@@ -20,9 +20,4 @@ public class Employee {
 
     public Employee() {
     }
-    public void addDepartmentEmployee(DepartmentEmployee departmentEmployee)
-    {
-        departmentsEmployees.add(departmentEmployee);
-        departmentEmployee.setEmployee(this);
-    }
 }

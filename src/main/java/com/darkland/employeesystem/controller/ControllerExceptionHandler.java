@@ -13,6 +13,7 @@ public class ControllerExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<?> NoSuchElementHandle(NoSuchElementException exception)
     {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApplicationResponseError(HttpStatus.NOT_FOUND, exception.getMessage()),
+                HttpStatus.NOT_FOUND);
     }
 }

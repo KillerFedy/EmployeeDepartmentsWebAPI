@@ -1,6 +1,7 @@
 package com.darkland.employeesystem.controller;
 
 import com.darkland.employeesystem.dto.EmployeeCreateDto;
+import com.darkland.employeesystem.dto.EmployeeDto;
 import com.darkland.employeesystem.model.Employee;
 import com.darkland.employeesystem.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -17,12 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    @PostMapping("/employee")
-    public ResponseEntity<Employee> saveEmployee(@RequestBody EmployeeCreateDto employeeCreateDto)
+    @PostMapping
+    public EmployeeDto saveEmployee(@RequestBody EmployeeCreateDto employeeCreateDto)
     {
         Employee employee = new Employee();
         employee.setName(employeeCreateDto.getEmployeeName());
         var savedEmployee = employeeService.saveEmployee(employee);
-        return new ResponseEntity<>(savedEmployee, HttpStatus.OK);
+        EmployeeDto employeeDto = new EmployeeDto(savedEmployee.getId(), savedEmployee.getName());
+        return employeeDto;
     }
 }

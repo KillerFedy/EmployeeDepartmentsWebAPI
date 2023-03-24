@@ -21,10 +21,4 @@ public class DepartmentEmployee {
     public DepartmentEmployee() {
     }
 
-    public DepartmentEmployee(Employee employee, Department department, String employeePosition)
-    {
-        employee.addDepartmentEmployee(this);
-        department.addDepartmentEmployee(this);
-        this.setEmployeePosition(employeePosition);
-    }
 }

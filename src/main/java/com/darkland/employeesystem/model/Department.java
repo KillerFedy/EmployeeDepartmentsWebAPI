@@ -22,18 +22,9 @@ public class Department {
     @OneToMany(mappedBy = "parentDepartment")
     private List<Department> childDepartments = new ArrayList<>();
     @ManyToOne
+    @JoinColumn(name = "parentDepartment_id")
     private Department parentDepartment;
 
     public Department() {
-    }
-    public void addChildDepartment(Department department)
-    {
-        childDepartments.add(department);
-        department.setParentDepartment(this);
-    }
-    public void addDepartmentEmployee(DepartmentEmployee departmentEmployee)
-    {
-        departmentsEmployees.add(departmentEmployee);
-        departmentEmployee.setDepartment(this);
     }
 }

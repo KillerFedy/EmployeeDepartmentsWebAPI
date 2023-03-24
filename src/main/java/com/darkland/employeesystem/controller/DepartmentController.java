@@ -1,6 +1,8 @@
 package com.darkland.employeesystem.controller;
 
 import com.darkland.employeesystem.dto.DepartmentCreateDto;
+import com.darkland.employeesystem.dto.DepartmentDto;
+import com.darkland.employeesystem.dto.DepartmentEmployeeDto;
 import com.darkland.employeesystem.dto.EmployeePositionDto;
 import com.darkland.employeesystem.model.Department;
 import com.darkland.employeesystem.model.DepartmentEmployee;
@@ -16,31 +18,37 @@ import org.springframework.web.bind.annotation.*;
 public class DepartmentController {
     private final DepartmentService departmentService;
 
-    @PostMapping("/department")
-    public ResponseEntity<Department> saveDepartment(@RequestBody DepartmentCreateDto departmentDto)
+    @PostMapping
+    public DepartmentDto saveDepartment(@RequestBody DepartmentCreateDto departmentCreateDto)
     {
         Department department = new Department();
-        department.setDepartmentName(departmentDto.getDepartmentName());
+        department.setDepartmentName(departmentCreateDto.getDepartmentName());
         Department savedDepartment = departmentService.saveDepartment(department);
-        return new ResponseEntity<>(savedDepartment, HttpStatus.OK);
+        DepartmentDto departmentDto = new DepartmentDto(savedDepartment.getId(),
+                savedDepartment.getDepartmentName());
+        return departmentDto;
     }
 
-    @PostMapping("/{depId}/department")
-    public ResponseEntity<Department> saveDepartment(@PathVariable Integer depId,
-                                                     @RequestBody DepartmentCreateDto departmentDto)
+    @PostMapping("/{depId}")
+    public DepartmentDto saveDepartment(@PathVariable Integer depId,
+                                                     @RequestBody DepartmentCreateDto departmentCreateDto)
     {
         Department department = new Department();
-        department.setDepartmentName(departmentDto.getDepartmentName());
+        department.setDepartmentName(departmentCreateDto.getDepartmentName());
         Department savedDepartment = departmentService.saveDepartment(department, depId);
-        return new ResponseEntity<>(savedDepartment, HttpStatus.OK);
+        DepartmentDto departmentDto = new DepartmentDto(savedDepartment.getId(),
+                savedDepartment.getDepartmentName(), depId);
+        return departmentDto;
     }
 
     @PutMapping("/{depId}/employee/{empId}")
-    public ResponseEntity<DepartmentEmployee> setEmployee(@PathVariable Integer depId, @PathVariable Integer empId,
-                                          @RequestBody EmployeePositionDto position)
+    public DepartmentEmployeeDto setEmployee(@PathVariable Integer depId, @PathVariable Integer empId,
+                                                             @RequestBody EmployeePositionDto position)
     {
         DepartmentEmployee departmentEmployee = departmentService.setEmployee(depId, empId,
                 position.getEmployeePosition());
-        return new ResponseEntity<>(departmentEmployee, HttpStatus.OK);
+        DepartmentEmployeeDto departmentEmployeeDto = new DepartmentEmployeeDto(depId, empId,
+                departmentEmployee.getEmployeePosition());
+        return departmentEmployeeDto;
     }
 }

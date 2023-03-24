@@ -9,6 +9,8 @@ import com.darkland.employeesystem.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 @AllArgsConstructor
 public class DepartmentServiceImplementation implements DepartmentService {
@@ -23,16 +25,25 @@ public class DepartmentServiceImplementation implements DepartmentService {
 
     @Override
     public Department saveDepartment(Department department, Integer parentId) {
-        Department parentDepartment = departmentRepository.findById(parentId).orElseThrow();
-        parentDepartment.addChildDepartment(department);
+        Department parentDepartment = departmentRepository.findById(parentId).orElseThrow(
+                () -> new NoSuchElementException("Отдел не найден"));
+        parentDepartment.getChildDepartments().add(department);
+        department.setParentDepartment(parentDepartment);
+        departmentRepository.save(parentDepartment);
         return departmentRepository.save(department);
     }
 
     @Override
     public DepartmentEmployee setEmployee(Integer depId, Integer empId, String empPosition) {
-        Employee employee = employeeRepository.findById(empId).orElseThrow();
-        Department department = departmentRepository.findById(depId).orElseThrow();
-        DepartmentEmployee departmentEmployee = new DepartmentEmployee(employee, department, empPosition);
+        Employee employee = employeeRepository.findById(empId).orElseThrow(
+                () -> new NoSuchElementException("Сотрудник не найден"));
+        Department department = departmentRepository.findById(depId).orElseThrow(
+                () -> new NoSuchElementException("Отдел не найден"));
+        DepartmentEmployee departmentEmployee = new DepartmentEmployee();
+        employee.getDepartmentsEmployees().add(departmentEmployee);
+        departmentEmployee.setEmployee(employee);
+        department.getDepartmentsEmployees().add(departmentEmployee);
+        departmentEmployee.setDepartment(department);
         departmentRepository.save(department);
         employeeRepository.save(employee);
         return departmentEmployeeRepository.save(departmentEmployee);
