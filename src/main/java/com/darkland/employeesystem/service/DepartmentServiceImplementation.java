@@ -44,6 +44,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
         departmentEmployee.setEmployee(employee);
         department.getDepartmentsEmployees().add(departmentEmployee);
         departmentEmployee.setDepartment(department);
+        departmentEmployee.setEmployeePosition(empPosition);
         departmentRepository.save(department);
         employeeRepository.save(employee);
         return departmentEmployeeRepository.save(departmentEmployee);
