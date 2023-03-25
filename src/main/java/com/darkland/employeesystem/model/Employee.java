@@ -3,10 +3,15 @@ package com.darkland.employeesystem.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "employees")
 public class Employee {
@@ -14,7 +19,6 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<DepartmentEmployee> departmentsEmployees = new ArrayList<>();
 

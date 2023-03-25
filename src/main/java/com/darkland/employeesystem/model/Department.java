@@ -3,11 +3,16 @@ package com.darkland.employeesystem.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "departments")
 public class Department {
@@ -15,10 +20,8 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String departmentName;
-    @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<DepartmentEmployee> departmentsEmployees = new ArrayList<>();
-    @JsonIgnore
     @OneToMany(mappedBy = "parentDepartment")
     private List<Department> childDepartments = new ArrayList<>();
     @ManyToOne

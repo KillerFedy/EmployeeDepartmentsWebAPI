@@ -2,8 +2,13 @@ package com.darkland.employeesystem.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "departments_employees")
 public class DepartmentEmployee {
