@@ -2,11 +2,11 @@ package com.darkland.employeesystem.service;
 
 import com.darkland.employeesystem.model.Employee;
 import com.darkland.employeesystem.repository.EmployeeRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmployeeServiceImplementation implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 

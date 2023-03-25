@@ -6,13 +6,13 @@ import com.darkland.employeesystem.model.Employee;
 import com.darkland.employeesystem.repository.DepartmentEmployeeRepository;
 import com.darkland.employeesystem.repository.DepartmentRepository;
 import com.darkland.employeesystem.repository.EmployeeRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DepartmentServiceImplementation implements DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final EmployeeRepository employeeRepository;

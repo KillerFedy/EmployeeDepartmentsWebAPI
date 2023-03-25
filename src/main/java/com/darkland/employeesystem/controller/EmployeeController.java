@@ -5,6 +5,7 @@ import com.darkland.employeesystem.dto.EmployeeDto;
 import com.darkland.employeesystem.model.Employee;
 import com.darkland.employeesystem.service.EmployeeService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/employees")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmployeeController {
     private final EmployeeService employeeService;
 
