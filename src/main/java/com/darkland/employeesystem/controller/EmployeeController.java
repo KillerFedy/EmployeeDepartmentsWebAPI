@@ -1,7 +1,7 @@
 package com.darkland.employeesystem.controller;
 
 import com.darkland.employeesystem.dto.EmployeeCreateDto;
-import com.darkland.employeesystem.dto.EmployeeDto;
+import com.darkland.employeesystem.dto.EmployeeSavedDto;
 import com.darkland.employeesystem.model.Employee;
 import com.darkland.employeesystem.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping
-    public EmployeeDto saveEmployee(@RequestBody EmployeeCreateDto employeeCreateDto)
+    public EmployeeSavedDto saveEmployee(@RequestBody EmployeeCreateDto employeeCreateDto)
     {
         Employee employee = new Employee();
         employee.setName(employeeCreateDto.getEmployeeName());
         var savedEmployee = employeeService.saveEmployee(employee);
-        EmployeeDto employeeDto = new EmployeeDto(savedEmployee.getId(), savedEmployee.getName());
+        EmployeeSavedDto employeeDto = new EmployeeSavedDto(savedEmployee.getId(), savedEmployee.getName());
         return employeeDto;
     }
 }

@@ -1,7 +1,7 @@
 package com.darkland.employeesystem.controller;
 
 import com.darkland.employeesystem.dto.DepartmentCreateDto;
-import com.darkland.employeesystem.dto.DepartmentDto;
+import com.darkland.employeesystem.dto.DepartmentSavedDto;
 import com.darkland.employeesystem.dto.DepartmentEmployeeDto;
 import com.darkland.employeesystem.dto.EmployeePositionDto;
 import com.darkland.employeesystem.model.Department;
@@ -17,24 +17,24 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @PostMapping
-    public DepartmentDto saveDepartment(@RequestBody DepartmentCreateDto departmentCreateDto)
+    public DepartmentSavedDto saveDepartment(@RequestBody DepartmentCreateDto departmentCreateDto)
     {
         Department department = new Department();
         department.setDepartmentName(departmentCreateDto.getDepartmentName());
         Department savedDepartment = departmentService.saveDepartment(department);
-        DepartmentDto departmentDto = new DepartmentDto(savedDepartment.getId(),
+        DepartmentSavedDto departmentDto = new DepartmentSavedDto(savedDepartment.getId(),
                 savedDepartment.getDepartmentName());
         return departmentDto;
     }
 
     @PostMapping("/{depId}")
-    public DepartmentDto saveDepartment(@PathVariable Integer depId,
+    public DepartmentSavedDto saveDepartment(@PathVariable Integer depId,
                                                      @RequestBody DepartmentCreateDto departmentCreateDto)
     {
         Department department = new Department();
         department.setDepartmentName(departmentCreateDto.getDepartmentName());
         Department savedDepartment = departmentService.saveDepartment(department, depId);
-        DepartmentDto departmentDto = new DepartmentDto(savedDepartment.getId(),
+        DepartmentSavedDto departmentDto = new DepartmentSavedDto(savedDepartment.getId(),
                 savedDepartment.getDepartmentName(), depId);
         return departmentDto;
     }
