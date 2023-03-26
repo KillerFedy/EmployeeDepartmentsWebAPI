@@ -8,6 +8,7 @@ import com.darkland.employeesystem.repository.DepartmentRepository;
 import com.darkland.employeesystem.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -23,6 +24,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
         return departmentRepository.save(department);
     }
 
+    @Transactional
     @Override
     public Department saveDepartment(Department department, Integer parentId) {
         Department parentDepartment = departmentRepository.findById(parentId).orElseThrow(
@@ -33,6 +35,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
         return departmentRepository.save(department);
     }
 
+    @Transactional
     @Override
     public DepartmentEmployee setEmployee(Integer depId, Integer empId, String empPosition) {
         Employee employee = employeeRepository.findById(empId).orElseThrow(
