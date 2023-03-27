@@ -63,22 +63,21 @@ public class DepartmentServiceImplementation implements DepartmentService {
         {
             throw new NoSuchElementException("Отделы не найдены");
         }
-        List<DepartmentDto> departmentDtos = new ArrayList<>();
-        for(Department department : topDepartments)
-        {
-            DepartmentDto departmentDto = new DepartmentDto();
-            departmentDto.setId(department.getId());
-            departmentDto.setDepartmentName(department.getDepartmentName());
-            departmentDtos.add(departmentDto);
-        }
+        List<DepartmentDto> departmentDtos = SerializeDepartmentToDepartmentDto(topDepartments);
         return departmentDtos;
     }
 
     @Override
     public List<DepartmentDto> getDepartmentsByParentDepartmentId(Integer parentId) {
         List<Department> childDepartments = departmentRepository.findChildDepartmentsByParentId(parentId);
+        List<DepartmentDto> departmentDtos = SerializeDepartmentToDepartmentDto(childDepartments);
+        return departmentDtos;
+    }
+
+    private List<DepartmentDto> SerializeDepartmentToDepartmentDto(List<Department> departments)
+    {
         List<DepartmentDto> departmentDtos = new ArrayList<>();
-        for(Department department : childDepartments)
+        for(Department department : departments)
         {
             DepartmentDto departmentDto = new DepartmentDto();
             departmentDto.setId(department.getId());
