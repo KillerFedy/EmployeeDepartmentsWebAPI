@@ -1,14 +1,13 @@
 package com.darkland.employeesystem.controller;
 
-import com.darkland.employeesystem.dto.DepartmentCreateDto;
-import com.darkland.employeesystem.dto.DepartmentSavedDto;
-import com.darkland.employeesystem.dto.DepartmentEmployeeDto;
-import com.darkland.employeesystem.dto.EmployeePositionDto;
+import com.darkland.employeesystem.dto.*;
 import com.darkland.employeesystem.model.Department;
 import com.darkland.employeesystem.model.DepartmentEmployee;
 import com.darkland.employeesystem.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/departments")
@@ -48,5 +47,17 @@ public class DepartmentController {
         DepartmentEmployeeDto departmentEmployeeDto = new DepartmentEmployeeDto(depId, empId,
                 departmentEmployee.getEmployeePosition());
         return departmentEmployeeDto;
+    }
+
+    @GetMapping
+    public List<DepartmentDto> getAllTopDepartments()
+    {
+        return departmentService.getAllTopLevelDepartments();
+    }
+
+    @GetMapping("/{parentId}")
+    public List<DepartmentDto> getChildDepartmentsByParentId(@PathVariable Integer parentId)
+    {
+        return departmentService.getDepartmentsByParentDepartmentId(parentId);
     }
 }

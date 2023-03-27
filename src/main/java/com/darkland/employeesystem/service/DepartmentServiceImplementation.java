@@ -1,5 +1,6 @@
 package com.darkland.employeesystem.service;
 
+import com.darkland.employeesystem.dto.DepartmentDto;
 import com.darkland.employeesystem.model.Department;
 import com.darkland.employeesystem.model.DepartmentEmployee;
 import com.darkland.employeesystem.model.Employee;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -51,5 +54,37 @@ public class DepartmentServiceImplementation implements DepartmentService {
         departmentRepository.save(department);
         employeeRepository.save(employee);
         return departmentEmployeeRepository.save(departmentEmployee);
+    }
+
+    @Override
+    public List<DepartmentDto> getAllTopLevelDepartments() {
+        List<Department> topDepartments = departmentRepository.findAllByParentDepartmentIsNull();
+        if(topDepartments.size() == 0)
+        {
+            throw new NoSuchElementException("Отделы не найдены");
+        }
+        List<DepartmentDto> departmentDtos = new ArrayList<>();
+        for(Department department : topDepartments)
+        {
+            DepartmentDto departmentDto = new DepartmentDto();
+            departmentDto.setId(department.getId());
+            departmentDto.setDepartmentName(department.getDepartmentName());
+            departmentDtos.add(departmentDto);
+        }
+        return departmentDtos;
+    }
+
+    @Override
+    public List<DepartmentDto> getDepartmentsByParentDepartmentId(Integer parentId) {
+        List<Department> childDepartments = departmentRepository.findChildDepartmentsByParentId(parentId);
+        List<DepartmentDto> departmentDtos = new ArrayList<>();
+        for(Department department : childDepartments)
+        {
+            DepartmentDto departmentDto = new DepartmentDto();
+            departmentDto.setId(department.getId());
+            departmentDto.setDepartmentName(department.getDepartmentName());
+            departmentDtos.add(departmentDto);
+        }
+        return departmentDtos;
     }
 }
