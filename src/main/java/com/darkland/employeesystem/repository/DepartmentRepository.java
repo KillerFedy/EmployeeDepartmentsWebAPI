@@ -11,6 +11,4 @@ import java.util.List;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {
     List<Department> findAllByParentDepartmentIsNull();
-    @Query("SELECT d FROM Department d WHERE d.parentDepartment.id = :parentId")
-    List<Department> findChildDepartmentsByParentId(@Param("parentId") Integer parentId);
 }

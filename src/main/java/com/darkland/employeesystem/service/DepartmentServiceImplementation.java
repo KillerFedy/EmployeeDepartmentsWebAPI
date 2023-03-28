@@ -69,7 +69,9 @@ public class DepartmentServiceImplementation implements DepartmentService {
 
     @Override
     public List<DepartmentDto> getDepartmentsByParentDepartmentId(Integer parentId) {
-        List<Department> childDepartments = departmentRepository.findChildDepartmentsByParentId(parentId);
+        List<Department> childDepartments = departmentRepository.findById(parentId).orElseThrow(
+                () -> new NoSuchElementException("Отдел не найден")
+        ).getChildDepartments();
         List<DepartmentDto> departmentDtos = SerializeDepartmentToDepartmentDto(childDepartments);
         return departmentDtos;
     }
