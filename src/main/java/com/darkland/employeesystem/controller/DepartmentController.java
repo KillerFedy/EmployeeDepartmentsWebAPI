@@ -4,6 +4,7 @@ import com.darkland.employeesystem.dto.*;
 import com.darkland.employeesystem.model.Department;
 import com.darkland.employeesystem.model.DepartmentEmployee;
 import com.darkland.employeesystem.service.DepartmentService;
+import com.darkland.employeesystem.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DepartmentController {
     private final DepartmentService departmentService;
+    private final EmployeeService employeeService;
 
     @PostMapping
     public DepartmentSavedDto saveDepartment(@RequestBody DepartmentCreateDto departmentCreateDto)
@@ -50,14 +52,26 @@ public class DepartmentController {
     }
 
     @GetMapping
-    public List<DepartmentDto> getAllTopDepartments()
+    public List<DepartmentDto> getAllHierarchy()
     {
-        return departmentService.getAllTopLevelDepartments();
+        List<DepartmentDto> topDepartments = departmentService.getAllTopLevelDepartments();
+        fillHierarchy(topDepartments);
+        return topDepartments;
     }
 
-    @GetMapping("/{parentId}")
-    public List<DepartmentDto> getChildDepartmentsByParentId(@PathVariable Integer parentId)
+    private void fillHierarchy(List<DepartmentDto> departments)
     {
-        return departmentService.getDepartmentsByParentDepartmentId(parentId);
+        if(departments.size() == 0)
+        {
+            return;
+        }
+        for(DepartmentDto departmentDto: departments)
+        {
+            List<EmployeeDto> employeeDtos = employeeService.getEmployeesDtoByDepartmentId(departmentDto.getId());
+            List<DepartmentDto> childDepartmentDtos = departmentService.getDepartmentsByParentDepartmentId(departmentDto.getId());
+            departmentDto.setEmployees(employeeDtos);
+            fillHierarchy(childDepartmentDtos);
+            departmentDto.setChildDepartments(childDepartmentDtos);
+        }
     }
 }
