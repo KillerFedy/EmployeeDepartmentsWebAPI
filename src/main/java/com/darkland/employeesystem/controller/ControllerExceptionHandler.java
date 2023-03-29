@@ -16,4 +16,11 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(new ApplicationResponseError(HttpStatus.NOT_FOUND, exception.getMessage()),
                 HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<?> IllegalArgumentHandle(IllegalArgumentException exception)
+    {
+        return new ResponseEntity<>(new ApplicationResponseError(HttpStatus.NOT_FOUND, exception.getMessage()),
+                HttpStatus.NOT_FOUND);
+    }
 }

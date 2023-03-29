@@ -19,6 +19,10 @@ public class EmployeeController {
     @PostMapping
     public EmployeeSavedDto saveEmployee(@RequestBody EmployeeCreateDto employeeCreateDto)
     {
+        if(employeeCreateDto.getEmployeeName() == null || employeeCreateDto.getEmployeeName().equals(""))
+        {
+            throw new IllegalArgumentException("Некорректный ввод имени пользователя");
+        }
         Employee employee = new Employee();
         employee.setName(employeeCreateDto.getEmployeeName());
         var savedEmployee = employeeService.saveEmployee(employee);

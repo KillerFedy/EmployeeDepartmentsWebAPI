@@ -20,6 +20,10 @@ public class DepartmentController {
     @PostMapping
     public DepartmentSavedDto saveDepartment(@RequestBody DepartmentCreateDto departmentCreateDto)
     {
+        if(departmentCreateDto == null || departmentCreateDto.getDepartmentName().equals(""))
+        {
+            throw new IllegalArgumentException("Некорректное именование отдела");
+        }
         Department department = new Department();
         department.setDepartmentName(departmentCreateDto.getDepartmentName());
         Department savedDepartment = departmentService.saveDepartment(department);
@@ -32,6 +36,10 @@ public class DepartmentController {
     public DepartmentSavedDto saveDepartment(@PathVariable Integer depId,
                                                      @RequestBody DepartmentCreateDto departmentCreateDto)
     {
+        if(departmentCreateDto == null || departmentCreateDto.getDepartmentName().equals(""))
+        {
+            throw new IllegalArgumentException("Некорректное именование отдела");
+        }
         Department department = new Department();
         department.setDepartmentName(departmentCreateDto.getDepartmentName());
         Department savedDepartment = departmentService.saveDepartment(department, depId);
@@ -44,6 +52,10 @@ public class DepartmentController {
     public DepartmentEmployeeDto setEmployee(@PathVariable Integer depId, @PathVariable Integer empId,
                                                              @RequestBody EmployeePositionDto position)
     {
+        if(position == null || position.getEmployeePosition().equals(""))
+        {
+            throw new IllegalArgumentException("Некорректный ввод должности сотрудника");
+        }
         DepartmentEmployee departmentEmployee = departmentService.setEmployee(depId, empId,
                 position.getEmployeePosition());
         DepartmentEmployeeDto departmentEmployeeDto = new DepartmentEmployeeDto(depId, empId,
