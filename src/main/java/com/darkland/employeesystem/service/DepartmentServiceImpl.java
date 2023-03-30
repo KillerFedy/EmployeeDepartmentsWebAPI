@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -78,14 +79,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     private List<DepartmentDto> SerializeDepartmentToDepartmentDto(List<Department> departments)
     {
-        List<DepartmentDto> departmentDtos = new ArrayList<>();
-        for(Department department : departments)
-        {
-            DepartmentDto departmentDto = new DepartmentDto();
-            departmentDto.setId(department.getId());
-            departmentDto.setDepartmentName(department.getDepartmentName());
-            departmentDtos.add(departmentDto);
-        }
+        List<DepartmentDto> departmentDtos = departments.stream().map(
+                department -> {
+                    DepartmentDto departmentDto = new DepartmentDto();
+                    departmentDto.setId(department.getId());
+                    departmentDto.setDepartmentName(department.getDepartmentName());
+                    return departmentDto;
+                }
+        ).collect(Collectors.toList());
         return departmentDtos;
     }
 }

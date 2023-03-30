@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +27,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeDto> getEmployeesDtoByDepartmentId(Integer departmentId) {
         List<DepartmentEmployee> departmentEmployees = departmentEmployeeRepository.findByDepartmentId(departmentId);
-        List<EmployeeDto> employeeDtos = new ArrayList<>();
-        for(DepartmentEmployee departmentEmployee : departmentEmployees)
-        {
-            EmployeeDto employeeDto = new EmployeeDto();
-            employeeDto.setId(departmentEmployee.getEmployee().getId());
-            employeeDto.setName(departmentEmployee.getEmployee().getName());
-            employeeDto.setPosition(departmentEmployee.getEmployeePosition());
-            employeeDtos.add(employeeDto);
-        }
-        return employeeDtos;
+        return departmentEmployees.stream()
+                .map(departmentEmployee -> {
+                    EmployeeDto employeeDto = new EmployeeDto();
+                    employeeDto.setId(departmentEmployee.getEmployee().getId());
+                    employeeDto.setName(departmentEmployee.getEmployee().getName());
+                    employeeDto.setPosition(departmentEmployee.getEmployeePosition());
+                    return employeeDto;
+                })
+                .collect(Collectors.toList());
     }
 }
