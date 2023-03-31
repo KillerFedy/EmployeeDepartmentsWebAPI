@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/departments")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:8081/")
 public class DepartmentController {
     private final DepartmentService departmentService;
     private final EmployeeService employeeService;
@@ -66,8 +67,10 @@ public class DepartmentController {
     @GetMapping
     public List<DepartmentDto> getAllHierarchy()
     {
+        System.out.println("Запрос на иерархию");
         List<DepartmentDto> topDepartments = departmentService.getAllTopLevelDepartments();
         fillHierarchy(topDepartments);
+        System.out.println("Иерархия заполнена успешно");
         return topDepartments;
     }
 
